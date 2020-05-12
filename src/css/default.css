@@ -4,6 +4,7 @@
 *::before{box-sizing: border-box;}
 ul,ol{list-style: none;}
 a{color: inherit;text-decoration: none;}  /* 不使用下划线和默认的颜色*/
+input{font: inherit;}
 
 body{
     font-size: 12px;
@@ -64,4 +65,44 @@ body{
 
 .clickable {
     cursor: pointer;
+}
+
+/* main */
+
+.page > main{
+    background: #d4d4d4;
+    padding-left: 20px;
+    padding-top: 20px;
+}
+.form{
+    font-size: 14px;
+}
+
+.form > .row{
+    margin: 20px 0;
+}
+
+.form > .row.actions{
+    margin-left: calc(4em + 8px);
+}
+
+.form > .row > label{
+    display: inline-block;
+    text-align: right;
+    width: 4em;
+    margin-right: 8px;
+}
+
+.form input[type=text]{
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    height: 25px;
+}
+
+.form button{
+    height: 25px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 5px;
 }
