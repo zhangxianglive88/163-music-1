@@ -34,38 +34,12 @@
     <script src="../vendors/moxie.js"></script>
     <script src="../node_modules/qiniu-js/dist/qiniu.min.js"></script>
     <script src="../node_modules/plupload/js/plupload.min.js"></script>
+    <script src="./js/eventHub.js"></script>
     <script src="./js/song-form.js"></script>
     <script src="./js/new-song.js"></script>
     <script src="./js/song-list.js"></script>
     <script src="./js/upload-song.js"></script>
-    <script>
-        
-    </script>
-
-    <script>
-        let APP_ID = "ASS5vibjExhr6Fm9AVGgUNVd-MdYXbMMI"
-        let appKey = "8XAEBBiNeQC5xh8QrdWbrU1W"
-        AV.init({
-            appId: APP_ID,
-            appKey: appKey,
-        })
-        // const Todo = AV.Object.extend('Todo');
-
-        // // Create an object
-        // const todo = new Todo();
-
-        // // Set values of fields
-        // todo.set('title', 'Sign up for Marathon');
-        // todo.set('priority', 2);
-
-        // // Save the object to the cloud
-        // todo.save().then((todo) => {
-        //     // Execute any logic that should take place after the object is saved
-        //     console.log(`Object saved. objectId: ${todo.id}`);
-        // }, (error) => {
-        //     // Execute any logic that should take place if the save fails
-        // });
-    </script>
+    <script src="./js/initializers/av.js"></script>
 </body>
 
 </html>
