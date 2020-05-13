@@ -1,10 +1,10 @@
 {
     let view = {
         el: '.newSong',
-        template:`
+        template: `
             新建歌曲
         `,
-        render(data){
+        render(data) {
             $(this.el).html(this.template)
         }
     }
@@ -13,22 +13,29 @@
     }
 
     let controller = {
-        init(view, model){
+        init(view, model) {
             this.view = view
             this.model = model
             this.view.render(this.model.data)
             this.active()
-            window.eventHub.on('upload', (data)=>{
+            this.bindEvent()
+        },
+        bindEvent() {
+            $(this.view.el).on('click', () => {
+                this.active()
+                window.eventHub.emit('new')
+            })
+            window.eventHub.on('upload', (data) => {
                 this.active()
             })
-            window.eventHub.on('clickItem', (data)=>{
+            window.eventHub.on('clickItem', (data) => {
                 this.deactive()
             })
         },
-        active(){
+        active() {
             $(this.view.el).addClass('active')
         },
-        deactive(){
+        deactive() {
             $(this.view.el).removeClass('active')
         }
     }

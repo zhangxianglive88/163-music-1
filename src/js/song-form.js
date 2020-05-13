@@ -3,7 +3,6 @@
     let view = {
         el: '.page > main',
         template: `
-            <h1>新建歌曲</h1>
             <form class="form">
                 <div class="row">
                     <label>
@@ -32,6 +31,11 @@
                 html = html.replace(`__${string}__`, data[string] || '')
             })
             $(this.el).html(html)
+            if(data.id){
+                $(this.el).prepend('<h1>编辑歌曲</h1>')    
+            }else{
+                $(this.el).prepend('<h1>新建歌曲</h1>')  
+            }
         },
         reset(){
             this.render({})
@@ -64,13 +68,6 @@
             this.model = model
             this.view.render(this.model.data)
             this.bindEvent()
-            window.eventHub.on('upload', (data) => {
-                this.view.render(data)
-            })
-            window.eventHub.on('clickItem', (data)=>{
-                this.model.data = data
-                this.view.render(this.model.data)
-            })
         },
         bindEvent() {
             $(this.view.el).on('submit', 'form', (e) => {
@@ -83,6 +80,17 @@
                         this.view.reset()
                         window.eventHub.emit('created', this.model.data)
                     })
+            })           
+            window.eventHub.on('upload', (data) => {
+                this.view.render(data)
+            })
+            window.eventHub.on('clickItem', (data)=>{
+                this.model.data = data
+                this.view.render(this.model.data)
+            })
+            window.eventHub.on('new', ()=>{
+                this.model.data = {id: '', singer: '', name: '', url: ''}
+                this.view.render(this.model.data)
             })
         }
     }
