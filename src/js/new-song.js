@@ -25,10 +25,10 @@
                 this.active()
                 window.eventHub.emit('new')
             })
-            window.eventHub.on('upload', (data) => {
-                this.active()
+            window.eventHub.on('new', (data) => {
+                    this.active()
             })
-            window.eventHub.on('clickItem', (data) => {
+            window.eventHub.on('select', (data) => {
                 this.deactive()
             })
         },

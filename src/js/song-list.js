@@ -61,7 +61,7 @@
                         break
                     }
                 }
-                window.eventHub.emit('clickItem', JSON.parse(JSON.stringify(data)))
+                window.eventHub.emit('select', JSON.parse(JSON.stringify(data)))
             })
         },
         getAllSongs() {
@@ -70,7 +70,7 @@
             })
         },
         bindEventHub() {
-            window.eventHub.on('upload', () => {
+            window.eventHub.on('new', () => {
                 this.view.clearActive()
             })
             window.eventHub.on('created', (newSong) => {
@@ -78,8 +78,14 @@
                 this.model.data.songs.push(song)
                 this.view.render(this.model.data)
             })
-            window.eventHub.on('new', ()=>{
-                this.view.clearActive()
+            window.eventHub.on('update', (song)=>{
+                let songs = this.model.data.songs
+                for(let i = 0; i < songs.length; i++){
+                    if(songs[i].id === song.id){
+                        Object.assign(songs[i], song) // 不丢失之前的对象
+                    }
+                }
+                this.view.render(this.model.data)
             })
         }
     }
