@@ -34,7 +34,6 @@
                 this.data.songs = songs.map((song) => {
                     return { id: song.id, ...song.attributes }
                 })
-                console.log(this.data.songs)
                 return songs
             })
         }
@@ -54,7 +53,15 @@
                 let li = e.currentTarget
                 this.view.activeItem(li)
                 let songId = e.currentTarget.getAttribute('data-song-id')
-                window.eventHub.emit('clickItem', { id: songId})
+                let data
+                let songs = this.model.data.songs
+                for(let i = 0; i < songs.length; i++){
+                    if(songs[i].id === songId){
+                        data = songs[i]
+                        break
+                    }
+                }
+                window.eventHub.emit('clickItem', JSON.parse(JSON.stringify(data)))
             })
         },
         getAllSongs() {

@@ -65,8 +65,11 @@
             this.view.render(this.model.data)
             this.bindEvent()
             window.eventHub.on('upload', (data) => {
-                console.log(data)
                 this.view.render(data)
+            })
+            window.eventHub.on('clickItem', (data)=>{
+                this.model.data = data
+                this.view.render(this.model.data)
             })
         },
         bindEvent() {
