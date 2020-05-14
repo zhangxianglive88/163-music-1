@@ -1,17 +1,11 @@
 {
     let view = {
         el: '#app',
-        template:`
-            <audio> 
-                <source src={{url}}>
-            </audio>
-            <div>
-                <button class="play">播放</button>
-                <button class="pause">暂停</button>
-            </div>
-        `,
-        render(data){
-            $(this.el).html(this.template.replace('{{url}}', data.url))
+        render(data) {
+            let {song, status} = data
+            $(this.el).css('background-image', `url(${song.cover})`)
+            $(this.el).find('img.cover').attr('src', song.cover)
+            $(this.el).find('audio').attr('src', song.url)
         },
         play(){
             $(this.el).find('audio')[0].play()
@@ -22,18 +16,18 @@
     }
     let model = {
         data: {
-            id: '',
-            name: '',
-            singer: '',
-            url: ''
-        },
-        setId(id) {
-            this.data.id = id
+            song: {
+                id: '',
+                name: '',
+                singer: '',
+                url: ''
+            },
+            status: 'paused'
         },
         get(id) {
             const query = new AV.Query('Song');
             return query.get(id).then((song) => {
-                Object.assign(this.data, song.attributes)
+                Object.assign(this.data.song, song.attributes)
                 return song
             })
         }
@@ -43,18 +37,24 @@
             this.view = view
             this.model = model
             let id = this.getSongId()
-            this.model.setId(id)
-            this.model.get(id).then(()=>{
+            this.model.get(id).then(() => {
                 this.view.render(this.model.data)
+                // this.view.play()
             })
             this.bindEvent()
         },
-        bindEvent(){
-            $(this.view.el).on('click', '.play', ()=>{
-                this.view.play()
-            })
-            $(this.view.el).on('click', '.pause', ()=>{
-                this.view.pause()
+        bindEvent() {
+            $(this.view.el).on('click', '.icon-wrapper', ()=>{
+                let status = this.model.data.status
+                if(status === 'playing'){
+                    $(this.view.el).find('.disc-container').removeClass('playing')
+                    this.model.data.status = 'paused'
+                    this.view.pause()
+                }else{
+                    $(this.view.el).find('.disc-container').addClass('playing')
+                    this.model.data.status = 'playing'
+                    this.view.play()
+                }
             })
         },
         getSongId() {

@@ -31,6 +31,7 @@
         find() {
             const query = new AV.Query('Song')
             return query.find().then((songs) => {
+                console.log(songs)
                 this.data.songs = songs.map((song) => {
                     return { id: song.id, ...song.attributes }
                 })
