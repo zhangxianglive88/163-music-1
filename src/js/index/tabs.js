@@ -16,14 +16,11 @@
         bindEvent(){
             this.view.$el.on('click', '.tabs-nav > li', (e)=>{
                 let $li = $(e.currentTarget)
-                console.log($li)
                 let tabName = $li.attr('data-tab-name')
-                console.log(tabName)
                 $li.addClass('active')
                     .siblings().removeClass('active')
                 window.eventHub.emit('selectTab', tabName)
             })
-            
         }
     }
     controller.init(view, model)
