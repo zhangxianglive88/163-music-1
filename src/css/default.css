@@ -109,3 +109,42 @@ body{
     padding-right: 10px;
     border-radius: 5px;
 }
+
+/* site-loading */
+@keyframes loading {
+    0%{
+        transform: scale(1);
+    }           
+    100%{
+        transform: scale(0.1);
+    }
+}
+.site-loading{
+    visibility: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.site-loading.active{
+    visibility: visible;
+}
+.site-loading::before{
+    content: '';
+    display: block;
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -50px;
+    margin-top: -50px ;
+    background:green;
+    border: 1px solid red;
+    border-radius: 50%;
+    animation: loading 1.5s infinite alternate-reverse;
+}
