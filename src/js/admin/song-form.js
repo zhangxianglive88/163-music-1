@@ -24,6 +24,11 @@
                         封面
                     </label><input name="cover" type="text" value="__cover__">  
                 </div>
+                <div class="row">
+                    <label>
+                        歌词
+                    </label><textarea rows=10 cols=100 name="lyric">__lyric__</textarea>  
+                </div>
                 <div class="row actions">
                         <button type="submit">保存</button>
                 </div>
@@ -31,7 +36,7 @@
         `,
         render(data = {}) {  // 如果没传data/或者data为undefined,则令data={}
             let html = this.template
-            let placeHolder = ['name', 'singer', 'url', 'id', 'cover']
+            let placeHolder = ['name', 'singer', 'url', 'id', 'cover', 'lyric']
             placeHolder.map((string) => {
                 html = html.replace(`__${string}__`, data[string] || '')
             })
@@ -48,7 +53,7 @@
     }
 
     let model = {
-        data: { name: '', singer: '', url: '', id: '', cover: '' },
+        data: { name: '', singer: '', url: '', id: '', cover: '', lyric: '' },
         created(data) {
             const Song = AV.Object.extend('Song');
             const song = new Song();
@@ -56,6 +61,7 @@
             song.set('url', data.url);
             song.set('singer', data.singer);
             song.set('cover', data.cover)
+            song.set('lyric', data.lyric)
             return song.save().then((newSong) => {
                 let { id, attributes } = newSong
                 Object.assign(this.data, {  // 更新model的data
@@ -72,6 +78,7 @@
             song.set('singer', data.singer)
             song.set('url', data.url)
             song.set('cover', data.cover)
+            song.set('lyric', data.lyric)
             return song.save().then((response) => {
                 Object.assign(this.data, data)
                 return response
@@ -93,18 +100,19 @@
                 let singer = $(this.view.el).find('input[name=singer]').val()
                 let url = $(this.view.el).find('input[name=url]').val()
                 let cover = $(this.view.el).find('input[name=cover]').val()
+                let lyric = $(this.view.el).find('textarea[name=lyric]').val()
                 let id = this.model.data.id
                 if (id) {
-                    this.model.update({ name: name, url: url, singer: singer, id: id, cover: cover})
+                    this.model.update({ name: name, url: url, singer: singer, id: id, cover: cover, lyric: lyric})
                         .then(()=>{
                             window.eventHub.emit('update', JSON.parse(JSON.stringify(this.model.data)))
                         })
                 } else {
-                    this.model.created({ name: name, url: url, singer: singer, cover: cover })
+                    this.model.created({ name: name, url: url, singer: singer, cover: cover, lyric: lyric })
                         .then(() => {
                             this.view.reset()
                             window.eventHub.emit('created', JSON.parse(JSON.stringify(this.model.data)))
-                            this.model.data = { id: '', singer: '', name: '', url: '', cover: '' }
+                            this.model.data = { id: '', singer: '', name: '', url: '', cover: '', lyric: '' }
                         })
                 }
 
@@ -113,7 +121,7 @@
                 if (data) {
                     this.view.render(data)
                 } else {
-                    this.model.data = { id: '', singer: '', name: '', url: '', cover: '' }
+                    this.model.data = { id: '', singer: '', name: '', url: '', cover: '', lyric: ''}
                     this.view.render(this.model.data)
                 }
             })
